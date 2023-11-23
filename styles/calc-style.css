@@ -2,6 +2,7 @@
     margin: 0px;
     padding: 0px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #fff;
 }
 
 body {
@@ -12,14 +13,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    border: 1px solid gray;
+    margin-top: 20px;
 }
 
 .calculator {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    border: 1px solid black;
+    border: 1px solid #282f3b;
     width: 300px;
     height: 400px;
 }
@@ -28,16 +29,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid blue;
     width: 100%;
     height: 30%;
+    background-color: #4b5568;
 }
 
 #operation {
     display: flex;
     align-items: center;
     justify-content: right;
-    border: 1px solid red;
     width: 90%;
     height: 30%;
 }
@@ -46,9 +46,8 @@ body {
     display: flex;
     align-items: end;
     justify-content: right;
-    border: 1px solid green;
     width: 90%;
-    height: 70%;
+    height: 60%;
     font-size: 50px;
 }
 
@@ -56,15 +55,35 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    border: 1px solid yellow;
     width: 100%;
     height: 70%;
 }
 
-.button {
+#buttons-container button {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 1 0 20%;
-    border: 1px solid purple;    
+    flex: 1 0 25%;
+    border: 1px solid #282f3b;
+    font-size: 20px;
+}
+
+button:hover {
+    opacity: 90%;
+}
+
+button:active {
+    opacity: 50%;
+}
+
+button.operator {
+    background-color: #3278e8;
+}
+
+button.number {
+    background-color: #7988a2;
+}
+
+button.function {
+    background-color: #4b5568 ;
 }
