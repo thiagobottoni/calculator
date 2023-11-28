@@ -14,7 +14,7 @@ const calcOperators = document.querySelectorAll(".operator");
 // Calculator numbers
 calcNumbers.forEach((number) => {
     number.addEventListener("click", () => {
-        if ((number1 === 0) && (previousButton === "")) {
+        if (((number1 === 0) && (previousButton === "")) || (previousButton === "operator")) {
             replace(number.textContent);
             previousButton = "number";
         } else
@@ -36,14 +36,20 @@ calcFunctions.forEach((calcFunction) => {
 // Calculator operators
 calcOperators.forEach((calcOperator) => {
     calcOperator.addEventListener("click", () => {
-        operator = calcOperator.textContent;
-        if (operator === "=") {
+        if (calcOperator.textContent === "=") {
             number2 = getNumber();
+            console.log("number 2: " + number2);
             let result = operate(number1, number2, operator);
             replace(result);
+            appendHistory(" " + operator + " ");
+            appendHistory(number2);
             previousButton = "operator";
         } else {
             number1 = getNumber();
+            console.log("number 1: " + number1);
+            operator = calcOperator.textContent;
+            previousButton = "operator";
+            replaceHistory(number1);
         }
     });
 });
@@ -84,7 +90,7 @@ function divide(n1, n2) {
     return n1 / n2;
 }
 
-// SCREEN FUNCTIONS
+// PRIMARY SCREEN FUNCTIONS (result)
 function replace(number) {
     document.getElementById("result").innerHTML = number;
 }
@@ -96,8 +102,20 @@ function append(number) {
 }
 
 function getNumber() {
+    let number = document.getElementById("result").innerHTML;
+    number = parseFloat(number);
+    return number;
+}
 
-    return document.getElementById("result").innerHTML;
+// SECONDARY SCREEN FUNCTIONS (history)
+function replaceHistory(text) {
+    document.getElementById("operation").innerHTML = text;
+}
+
+function appendHistory(text) {
+    const screen = document.getElementById("operation");
+    const textToAppend = document.createTextNode(text);
+    screen.appendChild(textToAppend);
 }
 
 // CALCULATOR FUNCTIONS
