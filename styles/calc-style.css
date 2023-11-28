@@ -80,10 +80,11 @@ button.operator {
     background-color: #3278e8;
 }
 
-button.number, button.separator {
+button.number,
+button.separator {
     background-color: #7988a2;
 }
 
 button.function {
-    background-color: #4b5568 ;
+    background-color: #4b5568;
 }
