@@ -1,9 +1,10 @@
 // GLOBAL VARIABLES
 // Initializes global variables
-let number1 = 0;
-let number2 = 0;
+let number1 = "";
+let number2 = "";
 let operator = "";
 let previousButton = "";
+let active = false;
 
 // Calculator buttons
 const calcNumbers = document.querySelectorAll(".number");
@@ -14,12 +15,18 @@ const calcOperators = document.querySelectorAll(".operator");
 // Calculator numbers
 calcNumbers.forEach((number) => {
     number.addEventListener("click", () => {
-        if (((number1 === 0) && (previousButton === "")) || (previousButton === "operator")) {
+        if (((number1 === "") && (previousButton === "")) || (previousButton === "operator")) {
             replace(number.textContent);
             previousButton = "number";
+            if (number1 === "") {
+                replaceHistory(number.textContent);
+            } else {
+                appendHistory(number.textContent);
+            }
         } else
             if (previousButton === "number") {
                 append(number.textContent);
+                appendHistory(number.textContent);
             }
     });
 });
@@ -36,21 +43,22 @@ calcFunctions.forEach((calcFunction) => {
 // Calculator operators
 calcOperators.forEach((calcOperator) => {
     calcOperator.addEventListener("click", () => {
-        if (calcOperator.textContent === "=") {
+        if ((calcOperator.textContent === "=") && (active === true)) {
             number2 = getNumber();
-            console.log("number 2: " + number2);
             let result = operate(number1, number2, operator);
             replace(result);
-            appendHistory(" " + operator + " ");
-            appendHistory(number2);
+            appendHistory(" = ");
             previousButton = "operator";
-        } else {
-            number1 = getNumber();
-            console.log("number 1: " + number1);
-            operator = calcOperator.textContent;
-            previousButton = "operator";
-            replaceHistory(number1);
-        }
+            active = false;
+        } else
+            if (calcOperator.textContent != "=") {
+                number1 = getNumber();
+                operator = calcOperator.textContent;
+                previousButton = "operator";
+                replaceHistory(number1);
+                appendHistory(" " + operator + " ");
+                active = true;
+            }
     });
 });
 
@@ -91,16 +99,19 @@ function divide(n1, n2) {
 }
 
 // PRIMARY SCREEN FUNCTIONS (result)
+// Replace number from the main display
 function replace(number) {
     document.getElementById("result").innerHTML = number;
 }
 
+// Append number to the main display
 function append(number) {
     const screen = document.getElementById("result");
     const textToAppend = document.createTextNode(number);
     screen.appendChild(textToAppend);
 }
 
+// Retrieve number from the main display
 function getNumber() {
     let number = document.getElementById("result").innerHTML;
     number = parseFloat(number);
@@ -108,10 +119,12 @@ function getNumber() {
 }
 
 // SECONDARY SCREEN FUNCTIONS (history)
+// Replace operations from the secondary display
 function replaceHistory(text) {
     document.getElementById("operation").innerHTML = text;
 }
 
+// Append number or operators to the secondary display
 function appendHistory(text) {
     const screen = document.getElementById("operation");
     const textToAppend = document.createTextNode(text);
@@ -119,9 +132,10 @@ function appendHistory(text) {
 }
 
 // CALCULATOR FUNCTIONS
+// AC function
 function reset() {
-    number1 = 0;
-    number2 = 0;
+    number1 = "";
+    number2 = "";
     operator = "";
     previousButton = "";
     document.getElementById("result").innerHTML = 0;
