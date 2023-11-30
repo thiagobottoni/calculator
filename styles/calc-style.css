@@ -81,7 +81,7 @@ button.operator {
 }
 
 button.number,
-button.separator {
+button#point {
     background-color: #7988a2;
 }
 

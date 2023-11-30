@@ -34,8 +34,24 @@ calcNumbers.forEach((number) => {
 // Calculator functions
 calcFunctions.forEach((calcFunction) => {
     calcFunction.addEventListener("click", () => {
-        if (calcFunction.textContent === "AC") {
-            reset();
+        switch (calcFunction.textContent) {
+            case "AC":
+                reset();
+                break;
+            case "+/-":
+                sign();
+                break;
+            case "%":
+                percentage();
+                break;
+            case "Del":
+                del();
+                break;
+            case ".":
+                decimal();
+                break;
+            default:
+                console.error("Error 002: Function not implemented.");
         }
     });
 });
@@ -131,6 +147,12 @@ function appendHistory(text) {
     screen.appendChild(textToAppend);
 }
 
+// Retrieve the operation from the secondary display
+function getHistory() {
+    let history = document.getElementById("operation").innerHTML;
+    return history;
+}
+
 // CALCULATOR FUNCTIONS
 // AC function
 function reset() {
@@ -141,3 +163,42 @@ function reset() {
     document.getElementById("result").innerHTML = 0;
     document.getElementById("operation").innerHTML = "Let's do some math!";
 }
+
+// +/- function
+function sign() {
+    let number = getNumber();
+    number *= -1;
+    replace(number);
+}
+
+// % function
+function percentage() {
+    let number = getNumber();
+    number /= 100;
+    replace(number);
+}
+
+// Del function
+function del() {
+    let number = getNumber();
+    number = number.toString();
+    let history = getHistory();
+    if (number.length > 1) {
+        number = number.slice(0, -1);
+        replace(number);
+        history = history.slice(0, -1);
+        replaceHistory(history);
+    } else {
+        replace("0");
+        replaceHistory("0");
+    }
+}
+
+// Decimal separator
+// function decimal() {
+//     let number = getNumber();
+//     if (Number.isInteger(number)) {
+//         append(".");
+//         appendHistory(".");
+//     }
+// }
