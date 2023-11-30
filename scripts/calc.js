@@ -20,7 +20,7 @@ calcNumbers.forEach((number) => {
             if (((number1 === "") && (previousButton === "")) || (previousButton === "operator")) {
                 replace(number.textContent);
                 previousButton = "number";
-                if (number1 === "") {
+                if ((number1 === "") || (!active)) {
                     replaceHistory(number.textContent);
                 } else {
                     appendHistory(number.textContent);
@@ -62,9 +62,10 @@ calcFunctions.forEach((calcFunction) => {
 // Calculator operators
 calcOperators.forEach((calcOperator) => {
     calcOperator.addEventListener("click", () => {
-        if ((calcOperator.textContent === "=") && (active === true)) {
+        if ((calcOperator.textContent === "=") && (active)) {
             number2 = getNumber();
             let result = operate(number1, number2, operator);
+            result = Math.round(result * 1000) / 1000;
             replace(result);
             appendHistory(" = ");
             previousButton = "operator";
@@ -80,6 +81,9 @@ calcOperators.forEach((calcOperator) => {
             }
     });
 });
+
+// Keyboard listener
+window.addEventListener('keydown', keyboardInput);
 
 // OPERATIONS
 function operate(n1, n2, operator) {
@@ -114,7 +118,12 @@ function multiply(n1, n2) {
 }
 
 function divide(n1, n2) {
-    return n1 / n2;
+    if (n2 != 0) {
+        return n1 / n2;
+    } else {
+        replaceHistory("Oh snap! You can't divide by zero");
+        return 0;
+    }
 }
 
 // PRIMARY SCREEN FUNCTIONS (result)
@@ -199,9 +208,32 @@ function del() {
 
 // Decimal separator
 function decimal() {
-    let number = getNumber();
-    if (Number.isInteger(number)) {
-        append(".");
-        appendHistory(".");
+    let display = document.getElementById("result").innerHTML;
+
+    if ((display === "0") && (number1 === "")) {
+        replace("0.");
+        replaceHistory("0.");
+        previousButton = "number";
+    } else
+        if ((number2 === "") && (previousButton === "operator")) {
+            replace("0.");
+            appendHistory("0.");
+            previousButton = "number";
+        } else
+            if ((number1 != "") && (number2 != "") && (previousButton === "operator")) {
+                replace("0.");
+                replaceHistory("0.");
+                previousButton = "number";
+            } else
+                if (display.indexOf(".") === -1) {
+                    append(".");
+                    appendHistory(".");
+                }
+}
+
+// KEYBOARD FUNCTIONS
+function keyboardInput(e) {
+    if ((e.key >= 0) && (e.key <= 9)) {
+
     }
 }
