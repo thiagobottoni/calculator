@@ -15,19 +15,22 @@ const calcOperators = document.querySelectorAll(".operator");
 // Calculator numbers
 calcNumbers.forEach((number) => {
     number.addEventListener("click", () => {
-        if (((number1 === "") && (previousButton === "")) || (previousButton === "operator")) {
-            replace(number.textContent);
-            previousButton = "number";
-            if (number1 === "") {
-                replaceHistory(number.textContent);
-            } else {
-                appendHistory(number.textContent);
-            }
-        } else
-            if (previousButton === "number") {
-                append(number.textContent);
-                appendHistory(number.textContent);
-            }
+        const display = (document.getElementById("result").innerHTML).length;
+        if (display < 10) {
+            if (((number1 === "") && (previousButton === "")) || (previousButton === "operator")) {
+                replace(number.textContent);
+                previousButton = "number";
+                if (number1 === "") {
+                    replaceHistory(number.textContent);
+                } else {
+                    appendHistory(number.textContent);
+                }
+            } else
+                if (previousButton === "number") {
+                    append(number.textContent);
+                    appendHistory(number.textContent);
+                }
+        }
     });
 });
 
@@ -149,7 +152,7 @@ function appendHistory(text) {
 
 // Retrieve the operation from the secondary display
 function getHistory() {
-    let history = document.getElementById("operation").innerHTML;
+    const history = document.getElementById("operation").innerHTML;
     return history;
 }
 
@@ -195,10 +198,10 @@ function del() {
 }
 
 // Decimal separator
-// function decimal() {
-//     let number = getNumber();
-//     if (Number.isInteger(number)) {
-//         append(".");
-//         appendHistory(".");
-//     }
-// }
+function decimal() {
+    let number = getNumber();
+    if (Number.isInteger(number)) {
+        append(".");
+        appendHistory(".");
+    }
+}
