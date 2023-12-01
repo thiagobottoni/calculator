@@ -11,18 +11,18 @@ A lightweight calculator designed to evaluate a single pair of numbers at a time
      - Multiplication
      - Division
 2. **Additional Functions:**
-     - **AC (All Clear):** Clears the calculator's memory and resets to zero.
-     - **+/- (Toggle Sign):** Inverts the sign of the currently displayed number.
-     - **% (Percentage):** Converts the displayed number to a percentage.
-     - **Del (Delete):** Removes the last digit entered.
+     - **AC (All Clear):** Clears the calculator's memory and resets to zero
+     - **+/- (Toggle Sign):** Inverts the sign of the currently displayed number
+     - **% (Percentage):** Converts the displayed number to a percentage
+     - **Del (Delete):** Removes the last digit entered
 3. **Current Operation Display:**
-     - A second display that shows the current operation being performed, providing users with real-time feedback.
+     - A second display that shows the current operation being performed, providing users with real-time feedback
 4. **Efficient Single Pair Evaluation:**
-     - Specifically designed to evaluate a single pair of numbers at a time.
+     - Specifically designed to evaluate a single pair of numbers at a time
 5. **Responsive Design:**
-     - Adapts to various screen sizes for a seamless user experience.
+     - Adapts to various screen sizes for a seamless user experience
 6. **Keyboard and Mouse Support:**
-     - Compatible with both keyboard and mouse input for user convenience.
+     - Compatible with both keyboard and mouse input for user convenience
 
 ## Check it out!
 Just click on the image below.
