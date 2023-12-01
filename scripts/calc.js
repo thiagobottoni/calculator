@@ -15,77 +15,98 @@ const calcOperators = document.querySelectorAll(".operator");
 // Calculator numbers
 calcNumbers.forEach((number) => {
     number.addEventListener("click", () => {
-        const display = (document.getElementById("result").innerHTML).length;
-        if (display < 10) {
-            if (((number1 === "") && (previousButton === "")) || (previousButton === "operator")) {
-                replace(number.textContent);
-                previousButton = "number";
-                if ((number1 === "") || (!active)) {
-                    replaceHistory(number.textContent);
-                } else {
-                    appendHistory(number.textContent);
-                }
-            } else
-                if (previousButton === "number") {
-                    append(number.textContent);
-                    appendHistory(number.textContent);
-                }
-        }
+        numberButton(number.textContent);
     });
 });
 
 // Calculator functions
 calcFunctions.forEach((calcFunction) => {
     calcFunction.addEventListener("click", () => {
-        switch (calcFunction.textContent) {
-            case "AC":
-                reset();
-                break;
-            case "+/-":
-                sign();
-                break;
-            case "%":
-                percentage();
-                break;
-            case "Del":
-                del();
-                break;
-            case ".":
-                decimal();
-                break;
-            default:
-                console.error("Error 002: Function not implemented.");
-        }
+        functionButton(calcFunction.textContent);
     });
 });
 
 // Calculator operators
 calcOperators.forEach((calcOperator) => {
     calcOperator.addEventListener("click", () => {
-        if ((calcOperator.textContent === "=") && (active)) {
-            number2 = getNumber();
-            let result = operate(number1, number2, operator);
-            result = Math.round(result * 1000) / 1000;
-            replace(result);
-            appendHistory(" = ");
-            previousButton = "operator";
-            active = false;
-        } else
-            if (calcOperator.textContent != "=") {
-                number1 = getNumber();
-                operator = calcOperator.textContent;
-                previousButton = "operator";
-                replaceHistory(number1);
-                appendHistory(" " + operator + " ");
-                active = true;
-            }
+        operatorButton(calcOperator.textContent);
     });
 });
 
 // Keyboard listener
 window.addEventListener('keydown', keyboardInput);
 
+// CALCULATOR BEHAVIOR
+// Triggered when someone presses a number
+function numberButton(content) {
+    const display = (document.getElementById("result").innerHTML).length;
+    if (display < 10) {
+        if (((number1 === "") && (previousButton === "")) || (previousButton === "operator")) {
+            replace(content);
+            previousButton = "number";
+            if ((number1 === "") || (!active)) {
+                replaceHistory(content);
+            } else {
+                appendHistory(content);
+            }
+        } else
+            if (previousButton === "number") {
+                append(content);
+                appendHistory(content);
+            }
+    } else
+        if (previousButton === "operator") {
+            replace(content);
+            appendHistory(content);
+        }
+}
+
+// Triggered when someone presses a function
+function functionButton(content) {
+    switch (content) {
+        case "AC":
+            reset();
+            break;
+        case "+/-":
+            sign();
+            break;
+        case "%":
+            percentage();
+            break;
+        case "Del":
+            del();
+            break;
+        case ".":
+            decimal();
+            break;
+        default:
+            console.error("Error 002: Function not implemented.");
+    }
+}
+
+// Triggered when someone presses an operator
+function operatorButton(content) {
+    if ((content === "=") && (active)) {
+        number2 = getNumber();
+        let result = operate(number1, number2, operator);
+        result = Math.round(result * 1000) / 1000;
+        replace(result);
+        appendHistory(" = ");
+        previousButton = "operator";
+        active = false;
+    } else
+        if (content != "=") {
+            number1 = getNumber();
+            operator = content;
+            previousButton = "operator";
+            replaceHistory(number1);
+            appendHistory(" " + operator + " ");
+            active = true;
+        }
+}
+
 // OPERATIONS
+// Perform the math operation
 function operate(n1, n2, operator) {
     switch (operator) {
         case "+":
@@ -105,18 +126,22 @@ function operate(n1, n2, operator) {
     }
 }
 
+// Sum
 function add(n1, n2) {
     return n1 + n2;
 }
 
+// Subtraction
 function subtract(n1, n2) {
     return n1 - n2;
 }
 
+// Multiplication
 function multiply(n1, n2) {
     return n1 * n2;
 }
 
+// Division
 function divide(n1, n2) {
     if (n2 != 0) {
         return n1 / n2;
@@ -209,7 +234,6 @@ function del() {
 // Decimal separator
 function decimal() {
     let display = document.getElementById("result").innerHTML;
-
     if ((display === "0") && (number1 === "")) {
         replace("0.");
         replaceHistory("0.");
@@ -234,6 +258,41 @@ function decimal() {
 // KEYBOARD FUNCTIONS
 function keyboardInput(e) {
     if ((e.key >= 0) && (e.key <= 9)) {
-
+        numberButton(e.key);
+    } else {
+        switch (e.key) {
+            case "+":
+                operatorButton(e.key);
+                break;
+            case "-":
+                operatorButton(e.key);
+                break;
+            case "*":
+                operatorButton("x");
+                break;
+            case "/":
+                operatorButton(e.key);
+                break;
+            case "Enter":
+                operatorButton("=");
+                break;
+            case "=":
+                operatorButton(e.key);
+                break;
+            case "Escape":
+                functionButton("AC");
+                break;
+            case "%":
+                functionButton(e.key);
+                break;
+            case "Backspace":
+                functionButton("Del");
+                break;
+            case ".":
+                functionButton(e.key);
+                break;
+            default:
+                console.error("Error 003: Keyboard function not implemented: " + e.key);
+        }
     }
 }
