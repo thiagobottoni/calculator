@@ -1,5 +1,5 @@
 # Single Pair Calculator
-Calculator developed as part of [The Odin Project](https://www.theodinproject.com/).
+Calculator developed as part of [The Odin Project](https://www.theodinproject.com/)
 
 ## Overview
 A lightweight calculator designed to evaluate a single pair of numbers at a time.
